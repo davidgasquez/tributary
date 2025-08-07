@@ -6,7 +6,7 @@ Data marketplace where contributors earn rewards for curating datasets. Unlike t
 
 | Rank | Contributor | Accuracy |
 | ---- | ----------- | -------- |
-| 1    | TBD         | TBD      |
+| 1    | alice         | 0.8249   |
 
 ## 🛠️ How It Works
 
