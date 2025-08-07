@@ -10,32 +10,29 @@ from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import OneHotEncoder
 
 parser = argparse.ArgumentParser()
-parser.add_argument("--train-data", type=Path, default=Path("data/train.csv"))
+parser.add_argument("--train-data", type=Path, default="data/train.csv")
 args = parser.parse_args()
 
 df_train = pl.read_csv(args.train_data)
 df_test = pl.read_csv("data/test.csv")
 
-target = "Survived"
-num_cols = ["Age", "Fare"]
-cat_cols = ["Sex", "Pclass"]
-feature_cols = num_cols + cat_cols
+feature_cols = ["Age", "Fare", "Sex", "Pclass"]
 
 X_train = df_train.select(feature_cols)
-y_train = df_train[target]
+y_train = df_train["Survived"]
 
 X_test = df_test.select(feature_cols)
-y_test = df_test[target]
+y_test = df_test["Survived"]
 
 preprocess = ColumnTransformer([
-    ("num", SimpleImputer(strategy="median"), num_cols),
+    ("num", SimpleImputer(strategy="median"), ["Age", "Fare"]),
     (
         "cat",
         make_pipeline(
             SimpleImputer(strategy="most_frequent"),
             OneHotEncoder(handle_unknown="ignore"),
         ),
-        cat_cols,
+        ["Sex", "Pclass"],
     ),
 ])
 

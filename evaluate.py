@@ -10,8 +10,6 @@ def download_and_decrypt(url: str, name: str) -> Path:
     """Download encrypted file and decrypt it."""
     with tempfile.TemporaryDirectory() as tmpdir:
         tmpdir = Path(tmpdir)
-
-        # Download encrypted file
         encrypted_file = tmpdir / f"{name}.csv.asc"
         decrypted_file = tmpdir / f"{name}_train.csv"
 
@@ -20,7 +18,6 @@ def download_and_decrypt(url: str, name: str) -> Path:
         response.raise_for_status()
         encrypted_file.write_bytes(response.content)
 
-        # Decrypt file
         print(f"Decrypting {name}'s data...")
         result = subprocess.run(
             [
@@ -39,20 +36,16 @@ def download_and_decrypt(url: str, name: str) -> Path:
         if result.returncode != 0:
             raise Exception(f"Failed to decrypt {name}'s data: {result.stderr}")
 
-        # Copy to data directory for model to use
         target = Path("data/train.csv")
         target.write_bytes(decrypted_file.read_bytes())
-
         return target
 
 
 def evaluate_submission(name: str, url: str) -> float:
     """Evaluate a single submission."""
     try:
-        # Download and decrypt
         download_and_decrypt(url, name)
 
-        # Run model
         print(f"Evaluating {name}'s model...")
         result = subprocess.run(
             ["uv", "run", "model.py"], capture_output=True, text=True
@@ -61,9 +54,7 @@ def evaluate_submission(name: str, url: str) -> float:
         if result.returncode != 0:
             raise Exception(f"Model evaluation failed: {result.stderr}")
 
-        # Parse accuracy from output
-        accuracy = float(result.stdout.strip())
-        return accuracy
+        return float(result.stdout.strip())
 
     except Exception as e:
         print(f"Error processing {name}: {e}")
@@ -71,7 +62,6 @@ def evaluate_submission(name: str, url: str) -> float:
 
 
 def main():
-    # Load submissions
     with open("submissions.yaml") as f:
         data = yaml.safe_load(f)
 
@@ -79,18 +69,14 @@ def main():
     print("Starting evaluation of all submissions")
     print("=" * 50)
 
-    # Evaluate each submission
     results = []
     for submission in data["submissions"]:
-        name = submission["name"]
-        url = submission["url"]
-
+        name, url = submission["name"], submission["url"]
         print(f"\nProcessing {name}...")
         accuracy = evaluate_submission(name, url)
         results.append((name, accuracy))
         print(f"{name}: {accuracy:.4f}")
 
-    # Print final results
     print("\n" + "=" * 50)
     print("Final Results:")
     print("=" * 50)
