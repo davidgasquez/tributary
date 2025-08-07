@@ -1,0 +1,8 @@
+[project]
+name = "tributary"
+version = "0.1.0"
+description = "Credibly neutral data marketplace where contributors earn token rewards for curating high-value datasets"
+readme = "README.md"
+authors = [{ name = "David Gasquez", email = "davidgasquez@gmail.com" }]
+requires-python = ">=3.13"
+dependencies = ["polars>=1.32.2", "scikit-learn>=1.7.1"]
