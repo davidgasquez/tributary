@@ -54,7 +54,9 @@ def evaluate_submission(name: str, url: str) -> float:
 
         # Run model
         print(f"Evaluating {name}'s model...")
-        result = subprocess.run(["python", "model.py"], capture_output=True, text=True)
+        result = subprocess.run(
+            ["uv", "run", "model.py"], capture_output=True, text=True
+        )
 
         if result.returncode != 0:
             raise Exception(f"Model evaluation failed: {result.stderr}")
