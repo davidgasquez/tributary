@@ -1,3 +1,6 @@
+import argparse
+from pathlib import Path
+
 import polars as pl
 from sklearn.compose import ColumnTransformer
 from sklearn.impute import SimpleImputer
@@ -6,7 +9,11 @@ from sklearn.metrics import accuracy_score
 from sklearn.pipeline import make_pipeline
 from sklearn.preprocessing import OneHotEncoder
 
-df_train = pl.read_csv("data/train.csv")
+parser = argparse.ArgumentParser()
+parser.add_argument("--train-data", type=Path, default=Path("data/train.csv"))
+args = parser.parse_args()
+
+df_train = pl.read_csv(args.train_data)
 df_test = pl.read_csv("data/test.csv")
 
 target = "Survived"

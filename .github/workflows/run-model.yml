@@ -28,5 +28,5 @@ jobs:
         # Decrypt the test file
         gpg --decrypt --batch --yes --output data/test.csv data/test.csv.asc
 
-    - name: Run model
-      run: uv run model.py
+    - name: Run evaluation
+      run: uv run evaluate.py
