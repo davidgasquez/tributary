@@ -61,6 +61,28 @@ def evaluate_submission(name: str, url: str) -> float:
         return 0.0
 
 
+def update_leaderboard(results):
+    """Update the leaderboard table in README.md with results."""
+    readme_path = Path("README.md")
+    readme_content = readme_path.read_text()
+    
+    # Create the new leaderboard table
+    table_lines = ["| Rank | Contributor | Accuracy |", "|------|-------------|----------|"]
+    for rank, (name, accuracy) in enumerate(sorted(results, key=lambda x: x[1], reverse=True), 1):
+        table_lines.append(f"| {rank}    | {name}      | {accuracy:.4f}   |")
+    
+    new_table = "\n".join(table_lines)
+    
+    # Replace the old table in README
+    import re
+    pattern = r"(\| Rank \| Contributor \| Accuracy \|\n\|------|-------------|----------\|\n)(.*?)(\n\n## 🛠️ How It Works)"
+    replacement = rf"\1{new_table[len(table_lines[0]) + len(table_lines[1]) + 2:]}\3"
+    
+    updated_content = re.sub(pattern, replacement, readme_content, flags=re.DOTALL)
+    readme_path.write_text(updated_content)
+    print("✅ Updated leaderboard in README.md")
+
+
 def main():
     with open("submissions.yaml") as f:
         data = yaml.safe_load(f)
@@ -82,6 +104,9 @@ def main():
     print("=" * 50)
     for name, accuracy in sorted(results, key=lambda x: x[1], reverse=True):
         print(f"{name}: {accuracy:.4f}")
+    
+    # Update the leaderboard in README.md
+    update_leaderboard(results)
 
 
 if __name__ == "__main__":

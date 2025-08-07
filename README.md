@@ -2,14 +2,20 @@
 
 Data marketplace where contributors earn rewards for curating datasets. Unlike traditional ML competitions where models compete on fixed data, Tributary fixes the model while participants compete by submitting better training datasets.
 
-## How It Works
+## 🥇 Leaderboard
+
+| Rank | Contributor | Accuracy |
+| ---- | ----------- | -------- |
+| 1    | TBD         | TBD      |
+
+## 🛠️ How It Works
 
 1. **Competition Setup**: Hosts create a competition with a fixed model and private test set
 2. **Data Submission**: Participants submit training datasets via encrypted files
 3. **Evaluation**: Submissions are evaluated using leave-one-provider-out or KNN Shapley
 4. **Rewards**: Contributors earn rewards proportional to their marginal data value
 
-## Contribute a Dataset
+## 📊 Contribute a Dataset
 
 All training data must be encrypted before submission:
 

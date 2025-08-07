@@ -30,3 +30,11 @@ jobs:
 
     - name: Run evaluation
       run: uv run evaluate.py
+
+    - name: Commit updated README
+      run: |
+        git config --local user.email "action@github.com"
+        git config --local user.name "GitHub Action"
+        git add README.md
+        git diff --staged --quiet || git commit -m "Update leaderboard in README.md"
+        git push
