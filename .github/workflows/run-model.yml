@@ -24,7 +24,7 @@ jobs:
       run: |
         # Import the GPG private key from secrets
         echo "$GPG_PRIVATE_KEY" | gpg --import --batch
-        
+
         # Decrypt the test file
         gpg --decrypt --batch --yes --output data/test.csv data/test.csv.asc
 
@@ -36,5 +36,5 @@ jobs:
         git config --local user.email "action@github.com"
         git config --local user.name "GitHub Action"
         git add README.md
-        git diff --staged --quiet || git commit -m "Update leaderboard in README.md"
+        git diff --staged --quiet || git commit -m "🏆 Update leaderboard"
         git push
