@@ -6,7 +6,7 @@ Credibly neutral data marketplace where contributors earn token rewards for cura
 
 | Rank | Contributor | Accuracy |
 | ---- | ----------- | -------- |
-| 1    | alice       | 0.8249   |
+| 1    | alice         | 0.8249   |
 
 ## 🛠️ How It Works
 
